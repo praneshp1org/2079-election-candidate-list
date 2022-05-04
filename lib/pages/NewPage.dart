@@ -82,13 +82,13 @@ class _NewPageState extends State<NewPage> {
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(electionList[index].Post),
-                            Text(electionList[index].Provience),
-                            Text(electionList[index].District),
-                            Text(electionList[index].local),
+                            Text("पोस्ट: " + electionList[index].Post),
+                            Text("प्रदेश: " + electionList[index].Provience),
+                            Text("जिल्ला: " + electionList[index].District),
+                            Text("स्थानीय तह: " + electionList[index].local),
                             Text((electionList[index].Ward == "")
-                                ? "Null"
-                                : "Ward no:  " + electionList[index].Ward),
+                                ? "वार्ड नं: लागु हुँदैन"
+                                : "वार्ड नं:  " + electionList[index].Ward),
                           ],
                         )),
                   );
