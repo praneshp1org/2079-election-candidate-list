@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:get/get.dart';
+// import 'package:loader_search_bar/loader_search_bar.dart';
 
 import 'package:json1/model/election.dart';
 
@@ -14,10 +15,12 @@ class NewPage extends StatefulWidget {
 }
 
 class _NewPageState extends State<NewPage> {
+  TextEditingController controller = new TextEditingController();
   var url, response;
   List data = [];
   List<Election> electionList = [];
   bool _isLoading = true;
+  String? _result;
   // List _items = [];
   // Future<void> readJson() async {
   //   final String response = await rootBundle.loadString('assets/election.json');
@@ -64,8 +67,9 @@ class _NewPageState extends State<NewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar:
-            AppBar(title: Text('स्थानीय निर्वाचनका उम्मेदवारहरुको नामावली')),
+        appBar: AppBar(
+          title: Text('उम्मेदवारहरूको सूची'),
+        ),
         body: (_isLoading == true)
             ? Center(
                 child: CircularProgressIndicator(),
