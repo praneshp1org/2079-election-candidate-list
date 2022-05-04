@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:get/get.dart';
 
 import 'package:json1/model/election.dart';
 
@@ -40,11 +41,16 @@ class _NewPageState extends State<NewPage> {
     url = Uri.parse(
         "https://raw.githubusercontent.com/ErKiran/2079-local-election-candidate-list/main/data/candidate_list.json");
     response = await http.get(url);
-    data = jsonDecode(response.body);
-    setState(() {
-      electionList = data.map((json) => Election.fromJson(json)).toList();
-      _isLoading = false;
-    });
+    if (response.statusCode == 200) {
+      data = jsonDecode(response.body);
+      setState(() {
+        electionList = data.map((json) => Election.fromJson(json)).toList();
+        _isLoading = false;
+      });
+    } else {
+      Get.snackbar("Error!", "Some error occured!");
+    }
+
     return electionList;
   }
 
@@ -58,7 +64,8 @@ class _NewPageState extends State<NewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Local Election')),
+        appBar:
+            AppBar(title: Text('स्थानीय निर्वाचनका उम्मेदवारहरुको नामावली')),
         body: (_isLoading == true)
             ? Center(
                 child: CircularProgressIndicator(),
