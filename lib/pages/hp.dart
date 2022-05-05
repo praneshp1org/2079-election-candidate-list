@@ -15,7 +15,8 @@ class _HPageState extends State<HPage> {
   var url, response;
   List data = [];
   List<Election> electionList = [];
-  List<dynamic> electionList1 = [];
+  // List<dynamic> electionList1 = [];
+  List<Election> _electionlistToDisplay = [];
   bool _isLoad = true;
 
   Future<List<Election>> getData() async {
@@ -40,6 +41,7 @@ class _HPageState extends State<HPage> {
     super.initState();
 
     getData();
+    _electionlistToDisplay = electionList;
   }
 
   @override
@@ -54,19 +56,42 @@ class _HPageState extends State<HPage> {
                 child: CircularProgressIndicator(),
               )
             : ListView.builder(
-                itemCount: (electionList.length),
+                itemCount: (_electionlistToDisplay.length + 1),
                 itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                        // if (electionList[index].local=="धरान उपमहानगरपालिका") {
-                        //   title: Text(''),
-                        // }
-                        title: Text(electionList[index].name +
-                            " (" +
-                            electionList[index].local +
-                            " )")),
-                  );
+                  return (index == 0) ? _searchbar() : _listItem(index - 1);
                 },
               ));
+  }
+
+  _searchbar() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextField(
+        decoration: InputDecoration(hintText: "Search here..."),
+        onChanged: (text) {
+          text = text.toLowerCase();
+          setState(() {
+            _electionlistToDisplay = electionList.where((note) {
+              var candidateName = note.name;
+              return candidateName.contains(text);
+            }).toList();
+            // return candidateName.
+          });
+        },
+      ),
+    );
+  }
+
+  _listItem(index) {
+    return Card(
+      child: ListTile(
+          // if (electionList[index].local=="धरान उपमहानगरपालिका") {
+          //   title: Text(''),
+          // }
+          title: Text(_electionlistToDisplay[index].name +
+              " (" +
+              _electionlistToDisplay[index].local +
+              " )")),
+    );
   }
 }

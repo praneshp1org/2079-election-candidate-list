@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       // home: HPage(),
       getPages: [
         GetPage(name: "/", page: () => Splash()),
-        GetPage(name: "/new", page: () => NewPage())
+        GetPage(name: "/new", page: () => HPage())
       ],
     );
   }
