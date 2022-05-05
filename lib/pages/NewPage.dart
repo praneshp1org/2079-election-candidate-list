@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 // import 'package:loader_search_bar/loader_search_bar.dart';
 
 import 'package:json1/model/election.dart';
+import 'package:json1/pages/wesite.dart';
 
 class NewPage extends StatefulWidget {
   const NewPage({Key? key}) : super(key: key);
@@ -27,7 +28,7 @@ class _NewPageState extends State<NewPage> {
 
   Future<List<Election>> getData() async {
     url = Uri.parse(
-        "https://raw.githubusercontent.com/ErKiran/2079-local-election-candidate-list/main/data/candidate_list.json");
+        "https://raw.githubusercontent.com/praneshp1org/2079-election-candidate-list/master/assets/election.json");
     response = await http.get(url);
     if (response.statusCode == 200) {
       data = jsonDecode(response.body);
@@ -80,6 +81,18 @@ class _NewPageState extends State<NewPage> {
                         label: (_isLight == true)
                             ? Text('Light theme')
                             : Text('Dark theme')),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Get.to(HomePage1());
+                  },
+                  child: ListTile(
+                    title: Text("Official Website"),
+                    leading: Icon(Icons.web),
                   ),
                 ),
               ),
