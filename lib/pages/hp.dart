@@ -84,14 +84,24 @@ class _HPageState extends State<HPage> {
 
   _listItem(index) {
     return Card(
+      elevation: 5,
       child: ListTile(
-          // if (electionList[index].local=="धरान उपमहानगरपालिका") {
-          //   title: Text(''),
-          // }
           title: Text(_electionlistToDisplay[index].name +
               " (" +
-              _electionlistToDisplay[index].local +
-              " )")),
+              _electionlistToDisplay[index].Party.toString() +
+              " )"),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("पद: " + _electionlistToDisplay[index].Post),
+              Text("प्रदेश: " + _electionlistToDisplay[index].Provience),
+              Text("जिल्ला: " + _electionlistToDisplay[index].District),
+              Text("स्थानीय तह: " + _electionlistToDisplay[index].local),
+              Text((_electionlistToDisplay[index].Ward == "")
+                  ? "वडा नं: लागु हुँदैन"
+                  : "वडा नं:  " + _electionlistToDisplay[index].Ward),
+            ],
+          )),
     );
   }
 }
