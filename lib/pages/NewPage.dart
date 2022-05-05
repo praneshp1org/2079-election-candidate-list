@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -20,25 +22,8 @@ class _NewPageState extends State<NewPage> {
   List data = [];
   List<Election> electionList = [];
   bool _isLoading = true;
-  String? _result;
-  // List _items = [];
-  // Future<void> readJson() async {
-  //   final String response = await rootBundle.loadString('assets/election.json');
-  //   final data = await json.decode(response);
-  //   setState(() {
-  //     _items = data["Candidate"];
-  //     _isLoading = false;
-  //   });
-  // }
 
-  // Future<void> readJson() async {
-  //   response = await rootBundle.load("assets/election.json");
-  //   data = await json.decode(response.body);
-  //   setState(() {
-  //     electionList = data.map((json) => Election.fromJson(json)).toList();
-  //     _isLoading = false;
-  //   });
-  // }
+  bool _isLight = true;
 
   Future<List<Election>> getData() async {
     url = Uri.parse(
@@ -67,17 +52,96 @@ class _NewPageState extends State<NewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: Drawer(
+          child: Column(
+            children: [
+              UserAccountsDrawerHeader(
+                  currentAccountPicture: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                        "https://github.com/praneshp1org/Flutter-Hive-/blob/master/pta.jpg?raw=true"),
+                  ),
+                  accountName: Text('Developed by:'),
+                  accountEmail: Text('Pranesh Tech Apps')),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      (_isLight == false)
+                          ? Get.changeTheme(ThemeData.light())
+                          : Get.changeTheme(ThemeData.dark());
+                    });
+                    _isLight = !_isLight;
+                  },
+                  child: ListTile(
+                    title: Text("Change Theme"),
+                    leading: Icon(Icons.wb_sunny),
+                    trailing: Chip(
+                        label: (_isLight == true)
+                            ? Text('Light theme')
+                            : Text('Dark theme')),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: (() {
+                        exit(0);
+                      }),
+                      child: ListTile(
+                          title: Text("Quit app"),
+                          leading: Icon(Icons.do_disturb_on_rounded)),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
         appBar: AppBar(
           title: Text('उम्मेदवारहरूको सूची'),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      (_isLight == false)
+                          ? Get.changeTheme(ThemeData.light())
+                          : Get.changeTheme(ThemeData.dark());
+                    });
+                    _isLight = !_isLight;
+                  },
+                  icon: Icon(Icons.sunny)),
+            )
+          ],
         ),
         body: (_isLoading == true)
             ? Center(
-                child: CircularProgressIndicator(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(),
+                    SizedBox(height: 10),
+                    Text(
+                      "सर्भरबाट data प्राप्त गर्दै! यसले केही समय लिन सक्छ...",
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
               )
             : ListView.builder(
                 itemCount: electionList.length,
                 itemBuilder: (context, index) {
                   return Card(
+                    elevation: 5,
                     child: ListTile(
                         title: Text(electionList[index].name +
                             " (" +
@@ -86,13 +150,13 @@ class _NewPageState extends State<NewPage> {
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("पोस्ट: " + electionList[index].Post),
+                            Text("पद: " + electionList[index].Post),
                             Text("प्रदेश: " + electionList[index].Provience),
                             Text("जिल्ला: " + electionList[index].District),
                             Text("स्थानीय तह: " + electionList[index].local),
                             Text((electionList[index].Ward == "")
-                                ? "वार्ड नं: लागु हुँदैन"
-                                : "वार्ड नं:  " + electionList[index].Ward),
+                                ? "वडा नं: लागु हुँदैन"
+                                : "वडा नं:  " + electionList[index].Ward),
                           ],
                         )),
                   );

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:json1/pages/NewPage.dart';
 import 'package:json1/pages/home_page.dart';
 import 'package:get/get.dart';
+import 'package:json1/pages/hp.dart';
+import 'package:json1/pages/splash.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +21,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: NewPage(),
+      // home: HPage(),
+      getPages: [
+        GetPage(name: "/", page: () => Splash()),
+        GetPage(name: "/new", page: () => NewPage())
+      ],
     );
   }
 }
