@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 // import 'package:loader_search_bar/loader_search_bar.dart';
 
 import 'package:json1/model/election.dart';
-import 'package:json1/pages/wesite.dart';
+// import 'package:json1/pages/wesite.dart';
 
 class NewPage extends StatefulWidget {
   const NewPage({Key? key}) : super(key: key);
@@ -88,7 +88,7 @@ class _NewPageState extends State<NewPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: GestureDetector(
                   onTap: () {
-                    Get.to(HomePage1());
+                    // Get.to(HomePage1());
                   },
                   child: ListTile(
                     title: Text("Official Website"),
